@@ -1,0 +1,9 @@
+#!/bin/bash
+php -S 0.0.0.0:3980 > php.log 2>&1 &
+ngrok http 3980 > ngrok.log 2>&1 &
+sleep 5
+if which jq > /dev/null 2>&1 ; then
+    curl -s localhost:4040/api/tunnels | jq -r .tunnels[0].public_url
+else
+    curl -s localhost:4040/api/tunnels 
+fi
